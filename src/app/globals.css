@@ -2,20 +2,163 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+* {
+  font-family: sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+/* styles/globals.css */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+.shape-img2 {
+  animation: animationFramesOne 20s linear infinite;
+}
+
+@keyframes animationFramesOne {
+  0% {
+    transform: translate(0) rotate(0deg);
+  }
+
+  20% {
+    transform: translate(73px, -1px) rotate(36deg);
+  }
+  40% {
+    transform: translate(141px, 72px) rotate(72deg);
+  }
+  60% {
+    transform: translate(83px, 122px) rotate(108deg);
+  }
+  80% {
+    transform: translate(-40px, 72px) rotate(144deg);
+  }
+  100% {
+    transform: translate(0) rotate(0deg);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes moveLeftBounce {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.shape-img6,
+.shape-img3 {
+  animation: rotate3d 4s linear infinite;
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateY(1turn);
+  }
+}
+
+.shape-img9 {
+  animation: moveScale 3s linear infinite;
+}
+@keyframes moveScale {
+  0% {
+    transform: scale(0.6);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(0.6);
+  }
+}
+
+.shape-img10,
+.shape-img11,
+.shape-img1,
+.shape-img8,
+.shape-img5 {
+  animation: moveLeftBounce 3s linear infinite;
+}
+
+.service-single-box::before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: url(/images/service6.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  clip-path: polygon(50% 0, 50% 0, 50% 50%, 50% 100%, 50% 100%, 50% 50%);
+  transition: 0.4s;
+
+  /* Adjust hue to move to pink tones */
+  filter: hue-rotate(320deg) saturate(1.5) contrast(1.1);
+}
+
+.service-single-box:hover::before {
+  clip-path: polygon(
+    25% -70%,
+    75% -70%,
+    120% 50%,
+    75% 170%,
+    25% 170%,
+    -20% 50%
+  );
+}
+
+.software-wrapper:before {
+  content: "ss";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  background: linear-gradient(
+    108deg,
+    rgba(255, 174, 248, 0.32) -2.51%,
+    rgba(244, 22, 218, 0.32) 107.67%
+  );
+  border-radius: 100%;
+  left: -120px;
+  top: 0;
+  -webkit-filter: blur(142px);
+  filter: blur(142px);
+  z-index: -1;
+}
+
+.software-wrapper:after {
+  content: "right";
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  background: linear-gradient(
+    108deg,
+    rgba(255, 174, 246, 0.32) -2.51%,
+    rgba(244, 22, 207, 0.32) 107.67%
+  );
+  right: -50px;
+  top: 0;
+  bottom: -50px;
+  border-radius: 100%;
+  -webkit-filter: blur(142px);
+  filter: blur(142px);
+  z-index: -1;
+}
+.test-image {
+  bottom: -9px;
+  left: -80px;
 }
