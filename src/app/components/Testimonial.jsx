@@ -1,150 +1,127 @@
-"use client";
-import React, { useState } from "react";
 import Image from "next/image";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { FaQuoteRight } from "react-icons/fa";
-import Link from "next/link";
+import Reveal from "./Reveal";
+
+const testimonials = [
+  {
+    name: "Richa Wadhawan",
+    content:
+      "Future IT Touch has been an invaluable partner for our company. They have helped us to streamline our IT operations, improve our cybersecurity, and save money. Their team of experts is always available to solve our queries and provide support.",
+    img: "/images/opt/avatar-1.webp",
+  },
+  {
+    name: "Nitin Rajput",
+    content:
+      "Future IT Touch is the best IT company that we have ever worked with. They are always on time, on budget, and on target. They have helped us to achieve our IT goals and objectives.",
+    img: "/images/opt/avatar-2.webp",
+  },
+  {
+    name: "Gourav Rajput",
+    content:
+      "Future IT Touch is a true innovator in the IT industry. They are always at the forefront of new technology and have helped us stay ahead of the competition. We are so impressed!",
+    img: "/images/opt/avatar-3.webp",
+  },
+  {
+    name: "Vishali",
+    content:
+      "It's a pleasure to work with Future IT Touch. They are always professional, courteous, and respectful. They take the time to understand our needs and always deliver on their promises.",
+  },
+  {
+    name: "Himanshi Mehra",
+    content:
+      "Future IT Touch has helped me to grow my business. They implemented new systems and processes that improved our efficiency, productivity, and profitability.",
+  },
+  {
+    name: "Shivam Thakur",
+    content:
+      "A breath of fresh air in the IT industry. They are honest, transparent, and ethical — always putting our needs first and willing to go the extra mile.",
+  },
+];
+
+const reviewBadges = [
+  { src: "/images/reviews-icon-1..webp", href: "https://g.co/kgs/Xpqu7J", alt: "Google 5 star customer rating" },
+  { src: "/images/reviews-icon-2..webp", alt: "Clutch top web developer" },
+  { src: "/images/reviews-icon-3..webp", alt: "GoodFirms top company" },
+];
+
+const initials = (name) =>
+  name
+    .split(" ")
+    .map((p) => p[0])
+    .join("")
+    .slice(0, 2);
+
+const ReviewCard = ({ review }) => (
+  <figure className="glass relative w-[340px] shrink-0 rounded-3xl p-7 sm:w-[400px]">
+    <span aria-hidden className="absolute right-7 top-3 font-display text-7xl leading-none text-white/10">“</span>
+    <span role="img" aria-label="5 out of 5 stars" className="stars text-sm text-amber-400" />
+    <blockquote className="mt-5 leading-7 text-slate-300">“{review.content}”</blockquote>
+    <figcaption className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+      {review.img ? (
+        <Image src={review.img} alt="" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
+      ) : (
+        <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-gradient text-sm font-bold text-white">
+          {initials(review.name)}
+        </span>
+      )}
+      <span>
+        <span className="block font-semibold text-white">{review.name}</span>
+        <span className="block text-xs text-slate-500">Verified client</span>
+      </span>
+    </figcaption>
+  </figure>
+);
+
+const MarqueeRow = ({ items, reverse }) => (
+  <div className="mask-fade-x overflow-hidden">
+    <div
+      className={`marquee-track flex w-max animate-marquee-slow gap-5 py-2 ${
+        reverse ? "[animation-direction:reverse]" : ""
+      }`}
+    >
+      {[...items, ...items].map((review, i) => (
+        <div key={i} className="flex" aria-hidden={i >= items.length}>
+          <ReviewCard review={review} />
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const Testimonials = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const testimonials = [
-    {
-      name: "Richa wadhawan",
-      content:
-        "Future IT Touch has been an invaluable partner for our company. They have helped us to streamline our IT operations, improve our cybersecurity, and save money. Their team of experts is always available to solve our queries and provide support. We highly recommend Future IT Touch to any business that is looking for a top-notch IT provider.",
-      img: "/images/testimonial1.jpg"
-    },
-    {
-      name: "Nitin Rajput",
-      content:
-        "Future IT Touch is the best IT company that we have ever worked with. They are always on time, on budget, and on target. They have helped us to achieve our IT goals and objectives. We highly recommend Future IT Touch to any business that is looking for a reliable and trustworthy IT partner.",
-      img: "/images/testimonial2.jpg"
-    },
-    {
-      name: "Gourav Rajput",
-      content:
-        "Future IT Touch is a true innovator in the IT industry. They are always at the forefront of new technology and they are always looking for ways to improve our IT infrastructure. They have helped us to stay ahead of the competition and they have given us a competitive edge. We are so impressed with Future IT Touch!",
-      img: "/images/testimonial3.jpg"
-    },
-    {
-      name: "Vishali",
-      content:
-        "It's a pleasure to work with Future Touch. They are always professional, courteous, and respectful. They take the time to understand our needs and they always deliver on their promises. I highly recommend Future IT Touch to any business that is looking for a customer-centric IT provider.",
-      img: "/images/testimonial.webp"
-    },
-    {
-      name: "Himanshi Mehra",
-      content:
-        "Future IT Touch has helped me to grow my business. They have implemented new systems and processes that have improved our efficiency, productivity, and profitability. I and my entire team are so grateful for their expertise and guidance. We highly recommend Future IT Touch to any business that is looking to take its business to the next level.",
-      img: "/images/testimonial.webp"
-    },
-    {
-      name: "Shivam Thakur",
-      content:
-        "Future IT Touch is a breath of fresh air in the IT industry. They are honest, transparent, and ethical. They always put our needs first, they are always looking for ways to save us money and are always willing to go the extra mile and they always have our best interests at heart. We are so happy that we chose Future IT Touch as our IT provider.",
-      img: "/images/testimonial.webp"
-    },
-  ];
-
-  const settings = {
-    dots: true,
-    dotsClass: "slick-dots",
-    customPaging: function (i) {
-      return (
-        <div
-          className={`w-2 h-2 rounded-full ${i === activeIndex ? "bg-blue-500" : "bg-black"
-            }`}
-        />
-      );
-    },
-
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    afterChange: (index) => setActiveIndex(index),
-  };
-
-
   return (
-    <section className="bg-none py-20 px-0 sm:px-0 md:px-10 lg:px-28 overflow-hidden">
-      <div className=" mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-          <div className="p-4 md:col-span-6">
-            <div className="text-left">
-              <span className="text-lg text-[#e60072]">
-                What our clients say about Future IT Touch Pvt. Ltd..
-              </span>
-              <h2 className="text-4xl font-semibold mt-4 text-[#050748]">
-                Over 1200+ Satisfied Clients and Growing
-              </h2>
-            </div>
-            <div className="mt-8">
-              <h4 className="text-xl text-[#050748] mb-10 font-bold">
-                Read More Reviews
-              </h4>
-              <div className="flex gap-5 relative mt-4">
-                <Link href="https://g.co/kgs/Xpqu7J" target="blank" className="w-1/4 mx-1">
-                  <img src="/images/reviews-icon-1..webp" alt="review" />
-                </Link>
-                <Link href="#" className="w-1/4 mx-1">
-                  <img src="/images/reviews-icon-2..webp" alt="review" />
-                </Link>
-                <Link href="#" className="w-1/4 mx-1">
-                  <img src="/images/reviews-icon-3..webp" alt="review" />
-                </Link>
-              </div>
-            </div>
+    <section id="testimonials" className="cv-auto relative overflow-hidden py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <Reveal className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
+          <div className="max-w-2xl">
+            <span className="eyebrow">What our clients say</span>
+            <h2 className="section-title mt-5">
+              Over <span className="text-gradient">1200+ satisfied clients</span> and growing
+            </h2>
           </div>
-          <div className="px-4 md:col-span-6">
-            <div className="pl50 relative">
-              <img
-                src="/images/shape-3.webp"
-                alt="shape"
-                className="test-image absolute bottom-0 w-52 h-auto"
-              />
-              <Slider {...settings}>
-                {testimonials.map((review, index) => (
-                  <div key={index}>
-                    <div className="testimonial-card bg-white relative w-full p-2 sm:p-2 md:p-5 lg:p-12 h-max rounded-lg">
-                      <div className="mb-10 text-lg leading-7">
-                        <p className="scrollable">{review.content}</p>
-                      </div>
-                      <div className="flex justify-between">
-                        <div className="flex gap-4 items-center">
-                          <div className="">
-                            <img
-                              src={review.img}
-                              alt="user"
-                              className="w-16 h-16 rounded-full object-cover"
-                            />
-                          </div>
-                          <div className="">
-                            <h5 className="font-bold text-xl">
-                              {review.name}
-                            </h5>
-                            <ul className="flex gap-3">
-                              <li><i className="bi bi-star-fill text-[#ffc600]"></i></li>
-                              <li><i className="bi bi-star-fill text-[#ffc600]"></i></li>
-                              <li><i className="bi bi-star-fill text-[#ffc600]"></i></li>
-                              <li><i className="bi bi-star-fill text-[#ffc600]"></i></li>
-                              <li><i className="bi bi-star-fill text-[#ffc600]"></i></li>
-                            </ul>
-                          </div>
-                        </div>
-                        <FaQuoteRight className="w-24 text-[#00f2a6] text-6xl" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Slider>
-            </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            {reviewBadges.map((b) => {
+              const img = (
+                <Image src={b.src} alt={b.alt} width={130} height={60} className="h-10 w-auto" />
+              );
+              return (
+                <div key={b.src} className="rounded-2xl bg-white px-4 py-2 transition-transform hover:-translate-y-0.5">
+                  {b.href ? (
+                    <a href={b.href} target="_blank" rel="noopener noreferrer">
+                      {img}
+                    </a>
+                  ) : (
+                    img
+                  )}
+                </div>
+              );
+            })}
           </div>
-        </div>
+        </Reveal>
+      </div>
+
+      <div className="mt-14 space-y-5">
+        <MarqueeRow items={testimonials.slice(0, 3).concat(testimonials.slice(0, 3))} />
+        <MarqueeRow items={testimonials.slice(3).concat(testimonials.slice(3))} reverse />
       </div>
     </section>
   );

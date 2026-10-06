@@ -1,112 +1,136 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import {
-  FaChevronRight, FaEnvelope, FaHeart, FaMapPin, FaInstagram,
-  FaPhoneAlt,
-  FaFacebookF,
-  FaTwitter,
-  FaLinkedinIn,
-  FaYoutube,
-  FaGithub,
-} from 'react-icons/fa';
+import Image from "next/image";
+import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
+import { navLinks, socials, contact, companies } from "../data/site";
 
+const badges = [
+  { src: "/images/badges-a.webp", alt: "ISO Certified World Wide 2018" },
+  { src: "/images/badges-b.webp", alt: "Best Ecommerce Development Company 2019-20" },
+  { src: "/images/badges-c.webp", alt: "High Performer Winner 2020" },
+  { src: "/images/badges-d.webp", alt: "Top App Developers 2019-20" },
+];
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <div className="bg-[#f8f9fa] py-10">
-      <div className=" px-3 sm:px-3 md:px-5 lg:px-28 ">
-        <div className="flex flex-col lg:flex-row justify-between">
-          <div className="lg:w-1/2 mb-8 lg:mb-0 text-center sm:text-center md:text-center lg:text-start">
-            <h5 className="mb-4 text-xl font-bold text-[#3a3a3a]">Top 5 IT Companies in India</h5>
-            <p className="mb-7 font-medium text-[#727272] pr-0 sm:pr-0 md:pr-5 lg:pr-40 ">
-              India excels globally in IT with innovation, digital solutions, and cutting-edge technology leadership.
+    <footer className="relative overflow-hidden border-t border-white/10 bg-ink-900">
+      <div className="glow -bottom-40 left-1/2 h-80 w-[600px] -translate-x-1/2 bg-brand-violet/20" />
+
+      <div className="relative mx-auto max-w-7xl px-5 pt-20 sm:px-8">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+          <div>
+            <Image src="/images/opt/logo.webp" alt="Future IT Touch logo" width={378} height={96} className="h-11 w-auto" />
+            <p className="mt-6 max-w-sm leading-7 text-slate-400">
+              Top 5 IT Companies in India — India excels globally in IT with innovation, digital
+              solutions, and cutting-edge technology leadership.
             </p>
-
-            <div className="flex items-center justify-normal max-lg:justify-center  max-sm:justify-center gap-3">
-              <p className='font-bold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text  text-lg'>Follow Us :</p>
-              <Link href="https://www.facebook.com/Futureittouch" target="blank">  <FaFacebookF className="h-7 w-7 rounded bg-[#4243c9] text-white p-1" /></Link>
-              <Link href="https://x.com/futureittouch" target="blank"> <FaTwitter className="w-7 h-7 rounded bg-[#4243c9] text-white p-1" /></Link>
-              <Link href="https://in.linkedin.com/company/future-it-touch" target="blank"> <FaLinkedinIn className="w-7 h-7 rounded bg-[#4243c9] text-white p-1" /></Link>
-              <Link href="https://www.instagram.com/future_it_touch/" target="blank"> <FaInstagram className="w-7 h-7 rounded bg-[#4243c9] text-white p-1" /></Link>
-              <Link href="https://www.youtube.com/channel/UCirWettrTWfsFRzdGRIc6BQ/about" target="blank">    <FaYoutube className="w-7 h-7 rounded bg-[#4243c9] text-white p-1" /></Link>
-
-              <Link href="https://github.com/Future-IT-Touch-Private-Limited" target="blank">    <FaGithub className="w-7 h-7 rounded bg-[#4243c9] text-white p-1" /></Link>
-
-            </div>
+            <ul className="mt-6 flex flex-wrap gap-3">
+              {socials.map(({ name, href, icon: Icon }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-slate-300 transition hover:-translate-y-0.5 hover:border-transparent hover:bg-brand-pink hover:text-white"
+                  >
+                    <Icon />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="lg:w-1/2">
-            <ul className="flex justify-center max-lg:flex-wrap lg:justify-end">
-              <li className="mx-2">
-                <Link href="#">
-                  <img
-                    src="/images/badges-a.webp"
-                    alt="badges"
-                    className="max-md:w-40"
-                  />
-                </Link>
 
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-white">Explore</h3>
+            <ul className="mt-5 space-y-3">
+              {navLinks.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="text-slate-400 transition hover:text-white">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-white">The Top 5</h3>
+            <ul className="mt-5 space-y-3">
+              {companies.map((c) => (
+                <li key={c.name}>
+                  <a href={c.profileLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 transition hover:text-white">
+                    {c.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-white">Contact</h3>
+            <ul className="mt-5 space-y-3 text-slate-400">
+              <li>
+                <a href={contact.phoneHref} className="flex items-center gap-3 transition hover:text-white">
+                  <FiPhone className="text-brand-pink" /> {contact.phone}
+                </a>
               </li>
-              <li className="mx-2">
-                <Link href="#">
-                  <img
-                    src="/images/badges-b.webp"
-                    alt="badges"
-                    className="max-md:w-40"
-                  />
-                </Link>
+              <li>
+                <a href={`mailto:${contact.email}`} className="flex items-center gap-3 transition hover:text-white">
+                  <FiMail className="text-brand-pink" /> {contact.email}
+                </a>
               </li>
-              <li className="mx-2">
-                <Link href="#">
-                  <img
-                    src="/images/badges-c.webp"
-                    alt="badges"
-                    className="max-md:w-40"
-                  />
-                </Link>
-              </li>
-              <li className="mx-2">
-                <Link href="#">
-                  <img
-                    src="/images/badges-d.webp"
-                    alt="badges"
-                    className="max-md:w-40"
-                  />
-                </Link>
+              <li className="flex items-center gap-3">
+                <FiMapPin className="text-brand-pink" /> {contact.city}
               </li>
             </ul>
           </div>
         </div>
-        <div className="block sm:block lg:flex text-center sm:text-center md:text-center lg:text-start lg:justify-between mt-8">
-          <div className="w-full lg:w-2/5">
-            <ul className="font-medium text-[#727272]">
-              <li>Copyright © 2017 <Link href="https://futuretouch.in/"> Future IT Touch Pvt. Ltd.</Link></li>
-            </ul>
+
+        <div className="glass mt-12 flex flex-col items-center gap-6 rounded-3xl px-6 py-6 lg:flex-row lg:justify-between lg:px-10">
+          <div className="text-center lg:text-left">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-pink">Awards &amp; recognition</p>
+            <p className="mt-2 font-display text-xl font-semibold text-white">Certified. Awarded. Trusted.</p>
           </div>
-          <div className="w-full sm:w-full lg:w-1/4">
-            <ul className="font-medium text-[#727272] ">
-              <li className='flex justify-center sm:justify-center  lg:justify-start items-center'>
-                Made with <FaHeart className='mx-2' style={{ color: "#f00" }} /> in Chandigarh
+          <ul className="grid w-full grid-cols-2 place-items-center gap-6 sm:grid-cols-4 lg:w-auto lg:gap-10">
+            {badges.map((b) => (
+              <li key={b.src}>
+                <Image
+                  src={b.src}
+                  alt={b.alt}
+                  width={229}
+                  height={167}
+                  className="h-20 w-auto transition-transform duration-300 hover:-translate-y-1 hover:scale-105 lg:h-24"
+                />
               </li>
-            </ul>
-          </div>
-          <div className="w-full lg:w-1/4">
-            <ul className="flex gap-5 font-medium text-[#727272] justify-center">
-              <li>
-                <Link href="#">Privacy & Policy</Link>
-              </li>
-              <li>
-                <Link href="#">Faq</Link>
-              </li>
-              <li>
-                <Link href="#">Terms</Link>
-              </li>
-            </ul>
-          </div>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-sm text-slate-500 lg:flex-row">
+          <p>
+            © 2017–{year}{" "}
+            <a href="https://futuretouch.in/" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white">
+              Future IT Touch Pvt. Ltd.
+            </a>
+          </p>
+          <p className="flex items-center gap-2">
+            Made with <FaHeart className="text-brand-pink" /> in Chandigarh
+          </p>
+          <a href="#faq" className="hover:text-white">
+            FAQ
+          </a>
         </div>
       </div>
-    </div>
 
-
+      <p
+        aria-hidden
+        className="pointer-events-none -mt-2 h-[clamp(2.5rem,6vw,6rem)] select-none overflow-hidden bg-gradient-to-b from-white/[0.08] to-transparent bg-clip-text text-center font-display text-[clamp(3.5rem,10vw,9rem)] font-extrabold leading-[0.8] tracking-tighter text-transparent"
+      >
+        FUTURE IT
+      </p>
+    </footer>
   );
 };
 

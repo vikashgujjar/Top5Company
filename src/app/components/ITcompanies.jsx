@@ -1,165 +1,111 @@
-"use client"
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import ContactArea from './Contacts';
+import Image from "next/image";
+import { FiArrowUpRight } from "react-icons/fi";
+import { HiSparkles } from "react-icons/hi2";
+import ContactArea from "./Contacts";
+import Reveal from "./Reveal";
+import { companies } from "../data/site";
 
+const CompanyCard = ({ company, rank }) => (
+  <article
+    className={`gradient-border group relative overflow-hidden rounded-3xl p-6 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${
+      company.highlight
+        ? "bg-gradient-to-br from-brand-pink/15 via-brand-violet/10 to-ink-900 ring-1 ring-brand-pink/40"
+        : "glass"
+    }`}
+  >
+    {/* Oversized rank number */}
+    <span
+      aria-hidden
+      className="pointer-events-none absolute -right-2 -top-6 select-none font-display text-[9rem] font-extrabold leading-none text-transparent opacity-40 transition-opacity duration-500 [-webkit-text-stroke:1px_rgba(255,255,255,0.15)] group-hover:opacity-80"
+    >
+      0{rank}
+    </span>
 
+    <div className="relative flex items-center gap-5">
+      <span className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white p-2 shadow-lg">
+        <Image
+          src={company.logo}
+          alt={`${company.fullName} logo`}
+          width={64}
+          height={64}
+          className="h-full w-full object-contain"
+        />
+      </span>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-pink">
+          Rank #{rank}
+        </p>
+        <h3 className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">
+          {company.fullName}
+        </h3>
+      </div>
+      {company.highlight && (
+        <span className="ml-auto hidden items-center gap-1 self-start rounded-full bg-brand-pink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white sm:inline-flex">
+          <HiSparkles /> Featured
+        </span>
+      )}
+    </div>
 
+    <ul className="relative mt-6 flex flex-wrap gap-2">
+      {company.tags.map((tag) => (
+        <li
+          key={tag}
+          className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-slate-300"
+        >
+          {tag}
+        </li>
+      ))}
+    </ul>
 
+    <p className="relative mt-5 leading-7 text-slate-400">{company.description}</p>
 
-// const services = [
-//     {
-//         id: 1,
-//         title: "TCS (Tata Consultancy Services)",
-//         description:
-//             "TCS stands as a titan in the IT realm, offering a diverse array of services, including IT consulting, software development, and business solutions. With a robust global presence and an extensive talent pool, TCS has consistently ranked among the top IT companies worldwide.",
-//         icon: "/assets/img/icons/service-icon1.png",
-//         link: "service-details.html",
-//         aosDuration: "700",
-//     },
-//     {
-//         id: 2,
-//         title: "Infosys",
-//         description:
-//             "Infosys, another industry giant, specializes in IT consulting, technology, and outsourcing services. Renowned for its innovative approach and dedication to client satisfaction, Infosys has been a driving force behind India's tech revolution.",
-//         icon: "/assets/img/icons/service-icon2.png",
-//         link: "service-details.html",
-//         aosDuration: "1100",
-//     },
-//     {
-//         id: 3,
-//         title: "Wipro Limited",
-//         description:
-//             "Wipro Limited, with its broad spectrum of IT services, has been a key player in the industry. Its expertise spans across technology, consulting, and business process services, solidifying its position in the market.",
-//         icon: "/assets/img/icons/service-icon3.png",
-//         link: "service-details.html",
-//         aosDuration: "800",
-//     },
-//     {
-//         id: 4,
-//         title: "HCL Technologies",
-//         description:
-//             "HCL Technologies, known for its focus on providing innovative technology solutions, has gained prominence globally. Its offerings in cybersecurity, cloud computing, and IoT solutions have propelled it to the forefront of technological innovation.",
-//         icon: "/assets/img/icons/service-icon4.png",
-//         link: "service-details.html",
-//         aosDuration: "1200",
-//     },
-//     {
-//         id: 5,
-//         title: "Future IT Touch",
-//         description:
-//             "Future IT Touch is a global IT services provider with a strong presence in India and a growing footprint across the globe.We offer a wide range of IT services, including application development, website development, digital marketing, web designing, industrial training, and BPO services.Our commitment to innovation and its focus on delivering value to customers has made us a trusted partner for businesses worldwide.",
-//         icon: "/assets/img/icons/service-icon5.png",
-//         link: "service-details.html",
-//         aosDuration: "900",
-//     },
-// ];
-
-
-const companyData = [
-    {
-        logo: "/images/tcs.avif",
-        altText: "tcs Logo",
-        name: "TCS (Tata Consultancy Services)",
-        profileLink: "https://www.tcs.com/",
-        description:
-            "TCS stands as a titan in the IT realm, offering a diverse array of services, including IT consulting, software development, and business solutions. With a robust global presence and an extensive talent pool, TCS has consistently ranked among the top IT companies worldwide.",
-    },
-    {
-        logo: "/images/Infosys.avif",
-        altText: "Infosys Logo",
-        name: "Infosys",
-        profileLink: "https://www.infosys.com/",
-        description:
-            "Infosys, another industry giant, specializes in IT consulting, technology, and outsourcing services. Renowned for its innovative approach and dedication to client satisfaction, Infosys has been a driving force behind India's tech revolution.",
-    },
-    {
-        logo: "/images/Wipro Limited_0.avif",
-        altText: "Wipro Logo",
-        name: "Wipro Limited",
-        profileLink: "https://www.wipro.com/",
-        description:
-            "Wipro Limited, with its broad spectrum of IT services, has been a key player in the industry. Its expertise spans across technology, consulting, and business process services, solidifying its position in the market.",
-    },
-    {
-        logo: "/images/HCL Technologies.avif",
-        altText: "Technologies Logo",
-        name: "HCL Technologies",
-        profileLink: "https://www.hcltech.com/",
-        description:
-            "HCL Technologies, known for its focus on providing innovative technology solutions, has gained prominence globally. Its offerings in cybersecurity, cloud computing, and IoT solutions have propelled it to the forefront of technological innovation.",
-    },
-    {
-        logo: "/images/logo-future.jpg",
-        altText: "future Logo",
-        name: "Future IT Touch",
-        profileLink: "https://www.futuretouch.in/",
-        description:
-            "Future IT Touch is a global IT services provider with a strong presence in India and a growing footprint across the globe.We offer a wide range of IT services, including application development, website development, digital marketing, web designing, industrial training, and BPO services.Our commitment to innovation and its focus on delivering value to customers has made us a trusted partner for businesses worldwide.",
-    },
-
-];
-
+    <a
+      href={company.profileLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white transition-colors hover:text-brand-pink"
+    >
+      Visit website
+      <FiArrowUpRight className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </a>
+  </article>
+);
 
 const ServicesSection = () => {
+  return (
+    <section id="companies" className="relative py-24 lg:py-32">
+      <div className="glow left-1/2 top-40 -z-10 h-[500px] w-[500px] -translate-x-1/2 bg-brand-violet/10" />
 
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <Reveal className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow">The ranking</span>
+          <h2 className="section-title mt-5">
+            Overview of the <span className="text-gradient">Top 5 IT Companies</span> in India
+          </h2>
+          <p className="mt-5 text-lg text-slate-400">
+            From global titans to rising innovators, these are the companies shaping India&apos;s
+            technology landscape.
+          </p>
+        </Reveal>
 
-    return (
-        <>
-            <div className="px-0 lg:px-28 py-20 bg-[#f6f5fb] relative " id='about' >
-                <h5 className='text-xl md:text-4xl font-bold text-gray-800 mt-4 mb-10 text-center' id='contact'>Overview of Top 5 IT Companies in India</h5>
+        <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+          <div className="space-y-6">
+            {companies.map((company, i) => (
+              <Reveal key={company.name} delay={i * 60}>
+                <CompanyCard company={company} rank={i + 1} />
+              </Reveal>
+            ))}
+          </div>
 
-                <div className="block lg:flex gap-10">
-                    <div className="w-full lg:w-3/5 px-5 lg:px-0">
-                        <div className="embedded-entities">
-                            {companyData.map((company, index) => (
-                                <div key={index} className="embedded-entity ">
-                                    <div className={`embedded-entity ${index === companyData.length - 1 ? "" : "mb-20"
-                                        }`}>
-                                        <div className="company-info-wrapper border-b  border-gray-300 flex items-center gap-6 mb-4 mt-8 pb-6">
-                                            <div className="logo-wrapper-small">
-                                                <div className="centered bg-white border-b flex overflow-hidden items-center justify-center text-center border border-gray-300 rounded-md h-20 w-20">
-                                                    <Image
-                                                        src={company.logo}
-                                                        alt={company.altText}
-                                                        width={100}
-                                                        height={100}
-                                                        className="object-cover"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="info">
-                                                <h3 className="title text-lg lg:text-2xl font-bold">
-                                                    <Link href={company.profileLink} target="_blank">
-                                                        {company.name}
-                                                    </Link>
-                                                </h3>
-                                                <div className="link mt-1">
-                                                    <Link href={company.profileLink} target="_blank" className="text-[#f20791] font-semibold text-sm uppercase tracking-[1.055px] ">
-                                                        View Profile
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p className="mt-6 text-gray-700">{company.description}</p>
-
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="w-full lg:w-2/5 sticky top-20 h-max mt-8 lg:mt-0">
-                        <ContactArea />
-                    </div>
-                </div>
-                <Image src="/images/shape/1.webp" alt="shape1" width={900} height={900} className="shape-img1  hidden lg:block absolute z-[1] left-[22%] top-[2.5%] w-[150px]  h-auto animate-moveLeftBounce" />
-                <Image src="/images/shape/2.webp" alt="shape2" width={50} height={50} className="shape-img2 hidden lg:block absolute z-[1] right-[30%] w-auto h-auto top-[2%] " />
-            </div>
-
-        </>
-
-    );
+          <div id="contact" className="lg:sticky lg:top-28 lg:h-max">
+            <Reveal>
+              <ContactArea />
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ServicesSection;

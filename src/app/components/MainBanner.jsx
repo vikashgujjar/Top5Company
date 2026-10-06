@@ -1,143 +1,140 @@
-"use client"
-import Image from 'next/image';
-import Link from 'next/link';
-import 'animate.css';
+import Image from "next/image";
+import { FiArrowRight, FiPhoneCall } from "react-icons/fi";
+import { HiSparkles } from "react-icons/hi2";
+import { companies, services, contact } from "../data/site";
+
+const avatars = ["/images/opt/avatar-1.webp", "/images/opt/avatar-2.webp", "/images/opt/avatar-3.webp"];
+
+const Leaderboard = () => (
+  <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+    {/* Rotating halo */}
+    <div className="absolute -inset-10 -z-10 animate-spin-slow rounded-full opacity-60 [background:conic-gradient(from_0deg,transparent,rgba(242,7,145,0.35),transparent_30%,rgba(34,211,238,0.3),transparent_60%,rgba(124,92,255,0.35),transparent)] [mask-image:radial-gradient(closest-side,transparent_45%,#000_70%,transparent)] will-change-transform" />
+
+    <div className="glass relative rounded-3xl p-5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] sm:p-6">
+      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Leaderboard</p>
+          <p className="font-display text-lg font-semibold text-white">India&apos;s IT Leaders</p>
+        </div>
+        <span className="flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
+          <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-emerald-400" /> Updated
+        </span>
+      </div>
+
+      <ol className="mt-4 space-y-2.5">
+        {companies.map((c, i) => (
+          <li
+            key={c.name}
+            className={`flex items-center gap-4 rounded-2xl p-3 transition-colors ${
+              c.highlight
+                ? "bg-gradient-to-r from-brand-pink/20 via-brand-violet/15 to-transparent ring-1 ring-brand-pink/40"
+                : "bg-white/[0.03] hover:bg-white/[0.06]"
+            }`}
+          >
+            <span className="w-6 font-display text-sm font-bold text-slate-500">0{i + 1}</span>
+            <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-white p-1.5">
+              <Image src={c.logo} alt="" width={44} height={44} className="h-full w-full object-contain" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate font-semibold text-white">{c.name}</span>
+              <span className="block truncate text-xs text-slate-400">{c.tags.join(" · ")}</span>
+            </span>
+            {c.highlight && (
+              <span className="hidden items-center gap-1 rounded-full bg-brand-pink px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white sm:inline-flex">
+                <HiSparkles /> Featured
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    {/* Floating chips */}
+    <div className="glass absolute -left-10 -top-7 hidden animate-float rounded-2xl px-4 py-3 text-sm font-medium text-white lg:block">
+      <span className="text-gradient font-display text-xl font-bold">AI</span> &amp; Machine Learning
+    </div>
+    <div className="glass absolute -bottom-10 -right-8 hidden animate-float rounded-2xl px-4 py-3 text-sm text-white [animation-delay:-3s] lg:block">
+      <span role="img" aria-label="5 out of 5 stars" className="stars block text-amber-400" />
+      <span className="mt-1 block text-xs text-slate-300">5-star Google rating</span>
+    </div>
+  </div>
+);
 
 const MainBanner = () => {
-    return (
-        <section className="main-banner relative h-max lg:h-[800px] border-b py-5 lg:py-20 overflow-hidden border-[#f5f5f5]">
-            <div className="d-table">
-                <div className="d-table-cell align-middle">
-                    <div className=" mx-auto">
-                        <div className="block lg:flex  justify-center items-center py-5 md:py-28 mx-5 lg:mx-28">
+  return (
+    <section className="relative overflow-hidden pb-16 pt-32 lg:pb-24 lg:pt-40">
+      {/* Background */}
+      <div className="grid-bg absolute inset-0 -z-10" />
+      <div className="glow -left-40 top-20 -z-10 h-[420px] w-[420px] bg-brand-pink/25" />
+      <div className="glow -right-20 top-40 -z-10 h-[460px] w-[460px] bg-brand-violet/25" />
+      <div className="glow bottom-0 left-1/3 -z-10 h-[300px] w-[300px] bg-brand-cyan/15" />
 
-                            <div className="w-full lg:w-1/2">
-                                <div className="main-banner-content">
-                                    <h1 className="text-2xl lg:text-5xl font-semibold mb-4">Top 5 IT Company</h1>
-                                    <p className="text-base text-[#6a6c72] font-normal m-0 tracking-[1px] leading-8 text-justify">
-                                        India has emerged as a global hub for IT innovation, boasting a thriving ecosystem of talented professionals and cutting-edge technologies. As businesses across industries embrace digital transformation, the demand for IT expertise continues to skyrocket. To help you navigate this dynamic landscape, we've compiled a list of the top five IT companies in India, each with a proven track record of excellence and a commitment to driving success in the digital age.
-                                    </p>
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-5 sm:px-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <div className="text-center lg:text-left">
+          <span className="eyebrow">Curated ranking · India</span>
 
-                                    <div className="banner-btn mt-5">
-                                        <Link
-                                            href="tel:917056937000"
-                                            className="inline-block px-8 py-3 text-white capitalize bg-[#f20791] border border-[#f20791] transition-all duration-500 rounded-full text-sm font-medium hover:bg-white hover:text-[#f20791]"
-                                        >
-                                            Contact Us
-                                        </Link>
+          <h1 className="mt-6 font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight text-white sm:text-6xl xl:text-7xl">
+            The <span className="text-gradient animate-shimmer">Top 5 IT</span> Companies in India
+          </h1>
 
-                                    </div>
-                                </div>
-                            </div>
+          <p className="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-400 sm:text-lg lg:mx-0">
+            India has emerged as a global hub for IT innovation. As businesses embrace digital
+            transformation, we&apos;ve compiled the five IT companies with a proven track record of
+            excellence and a commitment to driving success in the digital age.
+          </p>
 
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+            <a href="#companies" className="btn-primary w-full sm:w-auto">
+              Explore the list <FiArrowRight />
+            </a>
+            <a href={contact.phoneHref} className="btn-ghost w-full sm:w-auto">
+              <FiPhoneCall /> Talk to an expert
+            </a>
+          </div>
 
-                            <div className="w-full lg:w-1/2">
-                                <div className="banner-image relative">
-                                    <img
-                                        src="/images/main/arrow.webp"
-                                        className="animate__animated animate__fadeInLeft animate__delay-0.5s hidden lg:block absolute max-w-full h-auto top-[-200px] right-0"
-                                        alt="arrow"
-                                    />
-                                    <img
-                                        src="/images/main/box1.webp"
-                                        className="animate__animated animate__fadeInUp animate__delay-0.5s hidden lg:block absolute w-auto h-auto right-[55px] top-[-100px]"
-                                        alt="box1"
-                                    />
-                                    <img
-                                        src="/images/main/boy1.webp"
-                                        className="animate__animated animate__fadeInLeft animate__delay-0.5s hidden lg:block absolute w-auto h-auto right-[36%] z-[1] top-[-170px]"
-                                        alt="boy1"
-                                    />
-                                    <img
-                                        src="/images/main/boy2.webp"
-                                        className="animate__animated animate__zoomIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[27%] top-[110px] z-[2]"
-                                        alt="boy2"
-                                    />
-                                    <img
-                                        src="/images/main/boy3.webp"
-                                        className="animate__animated animate__bounceIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[15%] top-[80px] z-[2]"
-                                        alt="boy3"
-                                    />
-                                    <img
-                                        src="/images/main/digital-screen.webp"
-                                        className="animate__animated animate__fadeInDown animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-1/4 top-[-170px]"
-                                        alt="digital-screen"
-                                    />
-                                    <img
-                                        src="/images/main/filter1.webp"
-                                        className="animate__animated animate__zoomIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[47%] top-[96px] z-[2]"
-                                        alt="filter1"
-                                    />
-                                    <img
-                                        src="/images/main/filter2.webp"
-                                        className="animate__animated animate__fadeInUp animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[22%] top-[45px] z-[1]"
-                                        alt="filter2"
-                                    />
-                                    <img
-                                        src="/images/main/filter3.webp"
-                                        className="animate__animated animate__rotateIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[75px] top-[20px]"
-                                        alt="filter3"
-                                    />
-                                    <img
-                                        src="/images/main/girl1.webp"
-                                        className="animate__animated animate__fadeInUp animate__delay-0.5s hidden lg:block absolute w-auto h-auto right-[32%] top-[-76px] z-[1]"
-                                        alt="girl1"
-                                    />
-                                    <img
-                                        src="/images/main/girl2.webp"
-                                        className="animate__animated animate__zoomIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[40%] top-[-20px]"
-                                        alt="girl2"
-                                    />
-                                    <img
-                                        src="/images/main/monitor.webp"
-                                        className="animate__animated animate__fadeInRight animate__delay-0.5s hidden lg:block absolute w-auto h-auto top-[-292px] right-[45px]"
-                                        alt="monitor"
-                                    />
-                                    <img
-                                        src="/images/main/4.webp"
-                                        className="animate__animated animate__zoomIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[38%] top-[100px] z-[2]"
-                                        alt="4"
-                                    />
-                                    <img
-                                        src="/images/main/7.webp"
-                                        className="animate__animated animate__zoomIn animate__delay-0.5s hidden lg:block absolute w-auto h-auto left-[16%] bottom-[120px] z-[2]"
-                                        alt="7"
-                                    />
-                                    <img
-                                        src="/images/main-image.png"
-                                        className="relative block lg:hidden"
-                                        alt="7"
-                                    />
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div className="banner-bg-text text-[70px] left-0 text-center  absolute bottom-40  lg:bottom-4 right-0 lg:left-[4%] lg:text-[90px] text-[#f9f8fc] font-extrabold leading-none">
-                            TOP 5 IT COMPANY
-                        </div>
-                    </div>
-                </div>
+          <div className="mt-10 flex items-center justify-center gap-4 lg:justify-start">
+            <div className="flex -space-x-3">
+              {avatars.map((src) => (
+                <Image
+                  key={src}
+                  src={src}
+                  alt=""
+                  width={44}
+                  height={44}
+                  className="h-11 w-11 rounded-full object-cover ring-2 ring-ink-950"
+                />
+              ))}
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-gradient text-xs font-bold text-white ring-2 ring-ink-950">
+                +1k
+              </span>
             </div>
-
-
-            <div className=" ">
-                <Image src="/images/shape/1.webp" alt="shape1" width={900} height={900} className="shape-img1 hidden lg:block absolute z-[-1] left-5 top-[14%] w-[150px]  h-auto animate-moveLeftBounce" />
-                <Image src="/images/shape/2.webp" alt="shape2" width={50} height={50} className="shape-img2 hidden lg:block absolute z-[-1] left-[30%] w-auto h-auto top-[17%] " />
-                <Image src="/images/shape/3.webp" alt="shape3" width={50} height={50} className="shape-img3 hidden lg:block absolute z-[-1] left-[50px] w-auto h-auto top-[60%] " />
-                <Image src="/images/shape/4.webp" alt="shape4" width={400} height={400} className="shape-img4 hidden lg:block absolute z-[-1] bottom-0 w-auto h-auto left-0 " />
-                <Image src="/images/shape/5.webp" alt="shape5" width={50} height={50} className="shape-img5 hidden lg:block absolute z-[-1] left-[20%] w-auto h-auto bottom-[8%] " />
-                <Image src="/images/shape/6.webp" alt="shape6" width={50} height={50} className="shape-img6 hidden lg:block mx-auto absolute z-[-1] left-0 w-auto h-auto top-[20%] right-0 text-center " />
-                <Image src="/images/shape/2.webp" alt="shape7" width={50} height={50} className="shape-img7 hidden lg:block absolute z-[-1] left-1/2 w-auto h-auto bottom-[28%] " />
-                <Image src="/images/shape/10.webp" alt="shape8" width={50} height={50} className="shape-img8 hidden lg:block absolute z-[-1] right-[25%] w-auto h-auto bottom-[12%] " />
-                <Image src="/images/shape/2.webp" alt="shape9" width={100} height={100} className="shape-img9 hidden lg:block absolute z-[-1] right-[8%] w-auto h-auto top-[15%] " />
-                <Image src="/images/shape/5.webp" alt="shape10" width={50} height={50} className="shape-img10 hidden lg:block absolute z-[-1] left-[5%] w-auto h-auto top-[5%] " />
-                <Image src="/images/shape/11.webp" alt="shape11" width={900} height={900} className="shape-img11 hidden lg:block     absolute z-[-1] right-[0%] w-auto h-auto bottom-[5%] " />
+            <div className="text-left">
+              <p className="font-display text-lg font-semibold text-white">1200+ clients</p>
+              <p className="text-sm text-slate-400">trust Future IT Touch</p>
             </div>
+          </div>
+        </div>
 
-        </section>
-    );
+        <Leaderboard />
+      </div>
+
+      {/* Services marquee */}
+      <div className="mask-fade-x mt-20 overflow-hidden border-y border-white/5 py-6 lg:mt-28">
+        <div className="marquee-track flex w-max animate-marquee gap-12">
+          {[...services, ...services].map((s, i) => (
+            <span
+              key={i}
+              aria-hidden={i >= services.length}
+              className="flex items-center gap-12 whitespace-nowrap font-display text-2xl font-semibold text-white/25 sm:text-3xl"
+            >
+              {s}
+              <span aria-hidden className="text-xl text-brand-pink/60">✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default MainBanner;

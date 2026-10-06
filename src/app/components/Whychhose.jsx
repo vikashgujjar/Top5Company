@@ -1,158 +1,147 @@
 "use client";
-import React from "react";
-import Link from "next/link";
-import { FaPlus } from "react-icons/fa";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css"; // Import Swiper styles
 import Image from "next/image";
+import { FiAward, FiCpu, FiHeart, FiTrendingUp, FiLayers, FiShield, FiArrowRight } from "react-icons/fi";
+import Reveal from "./Reveal";
 
-const services = [
-    {
-        id: 1,
-        title: "Expertise and Experience",
-        description: "We have a proven track record of delivering successful IT projects for businesses of all sizes and industries.",
-        imageSrc: '/assets/images/service1.png',
-        altText: 'Web Development',
-        icon: "🌟"
-    },
-    {
-        id: 2,
-        title: "Technological Advancements",
-        description: "Embracing AI, machine learning, and data analytics, Future IT Touch is at the forefront of technological advancements.",
-        imageSrc: '/assets/images/service2.png',
-        altText: 'IT Management',
-        icon: "🔧",
-    },
-    {
-        id: 3,
-        title: "Customer-Centric Approach",
-        description: "We prioritize understanding your unique business goals and challenges, ensuring that our solutions align seamlessly with your objectives.",
-        imageSrc: '/assets/images/service3.png',
-        altText: 'Digital Marketing',
-        icon: "🤝",
-    },
-    {
-        id: 4,
-        title: "Innovation-Driven Solutions",
-        description: "We continuously explore and adopt emerging technologies to deliver cutting-edge solutions that drive business value.",
-        imageSrc: '/assets/images/service4.png',
-        altText: 'App Development',
-        icon: "💡",
-    },
-    {
-        id: 5,
-        title: "Scalable and Cost-Effective Solutions",
-        description: "We design solutions that adapt to your changing business needs and optimize your IT costs.",
-        imageSrc: '/assets/images/service3.png',
-        altText: 'Digital Marketing',
-        icon: "📈",
-    },
-    {
-        id: 6,
-        title: "Comprehensive Support",
-        description: "We provide ongoing support and maintenance to ensure the long-term success of your IT investments.",
-        imageSrc: '/assets/images/service4.png',
-        altText: 'App Development',
-        icon: "🔒",
-    },
+const features = [
+  {
+    title: "Expertise and Experience",
+    description:
+      "We have a proven track record of delivering successful IT projects for businesses of all sizes and industries.",
+    icon: FiAward,
+    span: "lg:col-span-2",
+  },
+  {
+    title: "Technological Advancements",
+    description:
+      "Embracing AI, machine learning, and data analytics, Future IT Touch is at the forefront of technological advancements.",
+    icon: FiCpu,
+  },
+  {
+    title: "Customer-Centric Approach",
+    description:
+      "We prioritize understanding your unique business goals and challenges, ensuring that our solutions align seamlessly with your objectives.",
+    icon: FiHeart,
+  },
+  {
+    title: "Innovation-Driven Solutions",
+    description:
+      "We continuously explore and adopt emerging technologies to deliver cutting-edge solutions that drive business value.",
+    icon: FiLayers,
+  },
+  {
+    title: "Scalable and Cost-Effective",
+    description:
+      "We design solutions that adapt to your changing business needs and optimize your IT costs.",
+    icon: FiTrendingUp,
+  },
+  {
+    title: "Comprehensive Support",
+    description:
+      "We provide ongoing support and maintenance to ensure the long-term success of your IT investments.",
+    icon: FiShield,
+    span: "lg:col-span-2",
+  },
 ];
 
+// Updates the CSS vars that position the hover spotlight.
+const trackPointer = (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
+  e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+};
+
+const FeatureCard = ({ feature, index }) => {
+  const Icon = feature.icon;
+  return (
+    <div
+      onMouseMove={trackPointer}
+      className="gradient-border glass group relative h-full overflow-hidden rounded-3xl p-7 transition-transform duration-500 hover:-translate-y-1"
+    >
+      <div className="spotlight pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative flex items-start justify-between">
+        <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-brand-pink/20 to-brand-violet/20 text-2xl text-white ring-1 ring-white/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+          <Icon />
+        </span>
+        <span className="font-display text-sm font-semibold text-slate-600">0{index + 1}</span>
+      </div>
+      <h3 className="relative mt-8 font-display text-xl font-semibold text-white">{feature.title}</h3>
+      <p className="relative mt-3 leading-7 text-slate-400">{feature.description}</p>
+    </div>
+  );
+};
+
 const WhyChooseUs = () => {
-    return (
-        <>
+  return (
+    <>
+      <section id="why-choose-us" className="cv-auto relative py-24 lg:py-32">
+        <div className="glow -left-40 top-1/3 -z-10 h-[420px] w-[420px] bg-brand-cyan/10" />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <span className="eyebrow">Why choose us</span>
+            <h2 className="section-title mt-5">
+              Built for businesses that <span className="text-gradient">refuse to stand still</span>
+            </h2>
+          </Reveal>
 
-            <div className="flex flex-col items-center relative py-20 px-5 lg:px-28 bg-[#f6f5fb]" id="why-choose-us">
-                <div className="text-center mb-12">
-                    {/* <h5 className="text-xl font-semibold text-gray-600"></h5> */}
-                    <h1 className="text-4xl font-bold text-gray-900">Why Choose Us</h1>
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {features.map((feature, i) => (
+              <Reveal key={feature.title} delay={(i % 4) * 80} className={`h-full ${feature.span || ""}`}>
+                <FeatureCard feature={feature} index={i} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
+      <section className="cv-auto relative py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-ink-800 via-ink-900 to-ink-950 p-8 sm:p-12 lg:p-16">
+            <div className="grid-bg absolute inset-0 opacity-60" />
+            <div className="glow -right-20 -top-20 h-80 w-80 bg-brand-pink/25" />
+            <div className="glow -bottom-20 left-10 h-72 w-72 bg-brand-violet/25" />
+
+            <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+              <Reveal>
+                <span className="eyebrow">Our vision</span>
+                <h2 className="section-title mt-5">
+                  Empower your business with <span className="text-gradient">Future IT Touch</span>
+                </h2>
+                <p className="mt-6 leading-8 text-slate-400">
+                  Future IT Touch shines as a rising star. Focused on cutting-edge technological
+                  solutions, we aim to revolutionize the IT landscape through our emphasis on
+                  artificial intelligence, machine learning, and data analytics.
+                </p>
+                <p className="mt-4 leading-8 text-slate-400">
+                  While relatively newer, we are making significant strides in transforming the
+                  Indian IT sector. Our commitment to innovation, client satisfaction, and
+                  technological advancement cements our position as a leader in the industry.
+                </p>
+                <a href="#contact" className="btn-primary mt-8">
+                  Start your project <FiArrowRight />
+                </a>
+              </Reveal>
+
+              <Reveal delay={120} className="relative">
+                <div className="relative mx-auto aspect-square max-w-md">
+                  <div className="absolute inset-0 animate-spin-slow rounded-full border border-dashed border-white/15" />
+                  <div className="absolute inset-10 animate-spin-slow rounded-full border border-white/10 [animation-direction:reverse]" />
+                  <div className="absolute inset-20 rounded-full bg-gradient-to-br from-brand-pink/30 via-brand-violet/30 to-brand-cyan/30 blur-2xl" />
+                  <Image
+                    src="/images/opt/map.webp"
+                    alt="Future IT Touch team connected across locations"
+                    fill
+                    sizes="(min-width: 1024px) 28rem, 90vw"
+                    className="object-contain"
+                  />
                 </div>
-
-                {/* Swiper Carousel */}
-                <Swiper
-                    spaceBetween={30}
-                    slidesPerView={1}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 2,
-                        },
-                        768: {
-                            slidesPerView: 2,
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                    className="w-full"
-                >
-                    {services.map((service) => (
-                        <SwiperSlide key={service.id}>
-                            <div className="service-single-box p-6 bg-white h-max lg:h-[320px] border border-white relative group z-10 rounded-lg overflow-hidden">
-                                <div className="service-icon text-5xl mb-5 text-center">
-                                    {service.icon}
-                                </div>
-                                <div className="service-content">
-                                    <h3 className="service-title text-xl font-semibold  text-gray-800 group-hover:text-white">{service.title}</h3>
-                                    <p className="service-text text-gray-600 text-sm my-4 group-hover:text-white ">{service.description}</p>
-                                    <div className="service-btn">
-                                        <Link href="#" className="text-white flex items-center font-semibold">
-                                            <FaPlus className="mr-2 text-[#f20791] group-hover:bg-[#f20791] bg-[#f4f4f4] rounded-full p-1.5 text-3xl group-hover:text-white " /> READ MORE
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-
-                <Image src="/images/shape/12.svg" alt="image" width={500} height={500} className="shape-img5 w-auto h-auto absolute left-[12%] top-[14%] " />
-                <Image src="/images/shape/13.svg" alt="image" width={500} height={500} className="shape-img2 w-auto h-auto  absolute right-[38%] lg:right-[16%] left-auto top-[5%] transform -translate-y-[20%] -translate-x-[15%]" />
-
-
+              </Reveal>
             </div>
-
-            <section className="software-wrapper  relative futureTouch py-10 md:px-16 xl:px-32 overflow-hidden">
-                <div className="container mx-auto px-4">
-                    <div className="flex  flex-col lg:flex-row items-center lg:gap-12">
-
-                        <div className="lg:w-1/2 mb-8 lg:mb-0">
-                            <div
-                                className="software-content fadeInLeft animated"
-                                style={{ visibility: "visible" }}
-                            >
-                                <h2 className="text-2xl lg:text-4xl  mb-4 font-bold">
-                                    {/* {/ People use <span className="text-primary">our software</span > /} */}
-                                    Empower Your Business with <span className='text-[#f20791]'>Future IT Touch </span>
-
-                                </h2>
-                                <p className=" text-gray-600 mb-6">
-                                    Future IT Touch shines as a rising star. Focused on cutting-edge technological solutions, Future IT Touch aims to revolutionize the IT landscape through its emphasis on artificial intelligence, machine learning, and data analytics.
-
-                                </p>
-                                <p className='text-gray-600'>Future IT Touch, while relatively newer, is making significant strides in transforming the Indian IT sector. With a clear vision to embrace the future through technology, Future IT Touch has taken charge of the final destination. Our commitment to innovation, client satisfaction, and technological advancement cements their positions as leaders in the industry.</p>
-
-
-                            </div>
-                        </div>
-
-                        <div className="lg:w-1/2">
-                            <div
-                                className="software-img fadeInRight animated"
-                                style={{ visibility: "visible" }}
-                            >
-                                <img
-                                    loading="lazy"
-                                    src="/images/map-img2.webp"
-                                    alt="software"
-                                    className="w-full h-auto"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </>
-    );
+          </div>
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default WhyChooseUs;

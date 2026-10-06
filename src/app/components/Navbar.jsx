@@ -1,125 +1,84 @@
-"use client"
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import SidebarModal from './Slider'
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { FiArrowUpRight } from "react-icons/fi";
+import SidebarModal from "./Slider";
+import { navLinks, contact } from "../data/site";
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [showSidebar, setShowSidebar] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const closeSidebar = useCallback(() => setShowSidebar(false), []);
 
-    const toggleSidebar = () => {
-        setShowSidebar((prevState) => !prevState);
-    };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
+  return (
+    <>
+      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
+        <div
+          className={`mx-auto flex max-w-7xl items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-500 sm:px-6 ${
+            scrolled
+              ? "border border-white/10 bg-ink-900/70 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+              : "border border-transparent"
+          }`}
+        >
+          <Link href="/" aria-label="Future IT Touch home" className="shrink-0">
+            <Image
+              src="/images/opt/logo.webp"
+              alt="Future IT Touch logo"
+              width={378}
+              height={96}
+              priority
+              className="h-9 w-auto sm:h-11"
+            />
+          </Link>
 
-    return (
-        <>
-            <header className="bg-white shadow sticky top-0 z-50">
-                <div className="relative mx-auto px-6 lg:px-28 bg-white">
-                    <div className="flex flex-wrap items-center justify-between py-2">
+          <nav aria-label="Main" className="hidden lg:block">
+            <ul className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="block rounded-full px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/[0.07] hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-                        <div className="flex items-center">
-                            <Link href="/">
-                                <Image
-                                    width={700}
-                                    height={700}
-                                    src="/images/logo.webp"
-                                    alt="Move It Solution Logo"
-                                    className="w-40 md:w-[300px]"
-                                />
-                            </Link>
-                        </div>
+          <div className="flex items-center gap-2">
+            <a href="#contact" className="btn-primary hidden !px-5 !py-2.5 sm:inline-flex">
+              Get in touch <FiArrowUpRight />
+            </a>
+            <button
+              type="button"
+              onClick={() => setShowSidebar(true)}
+              aria-label="Open menu"
+              aria-expanded={showSidebar}
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-xl text-white transition hover:border-white/30"
+            >
+              <HiOutlineMenuAlt3 />
+            </button>
+          </div>
+        </div>
+      </header>
 
-                        {/* Navbar Menu */}
-                        <div className="flex items-center">
-                            <nav className="">
-                                {/* Burger Icon for Mobile */}
-                                <button
-                                    type="button"
-                                    className="block md:hidden text-[#131f58] hover:text-gray-800"
-                                    onClick={toggleSidebar}
-                                >
-                                    <div className="burger-menu w-9 h-auto bg-transparent cursor-pointer inline-block relative top-[1px]">
-                                        <span className="block w-9 h-[3px] bg-[#5b5b98] transition-all duration-500 rounded-full mb-1"></span>
-                                        <span className="block w-9 h-[3px] bg-[#5b5b98] transition-all duration-500 rounded-full mb-1"></span>
-                                        <span className="block w-[28px] ml-auto h-[2px] bg-[#5b5b98] transition-all duration-500 rounded-full"></span>
-                                    </div>
-                                </button>
-
-                                {/* Desktop Menu */}
-                                <ul className="hidden md:flex justify-center items-center md:gap-10">
-                                    <li>
-                                        <Link href="/">
-                                            <span className="text-[#131f58] font-semibold text-lg hover:text-[#f20791]">
-                                                Home
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <a href="#about">
-                                            <span className="text-[#131f58] font-semibold text-lg hover:text-[#f20791]">
-                                                About us
-                                            </span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#why-choose-us">
-                                            <span className="text-[#131f58] font-semibold text-lg hover:text-[#f20791]">
-                                                Why Choose Us
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#contact">
-                                            <span className="text-[#131f58] font-semibold text-lg hover:text-[#f20791]">
-                                                Contact
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li onClick={() => setShowSidebar(true)}>
-                                        <div className="burger-menu w-9 h-auto bg-transparent cursor-pointer inline-block relative top-[1px]">
-                                            <span className="block w-9 h-[3px] bg-[#5b5b98] transition-all duration-500 rounded-full mb-1"></span>
-                                            <span className="block w-9 h-[3px] bg-[#5b5b98] transition-all duration-500 rounded-full mb-1"></span>
-                                            <span className="block w-[28px] ml-auto h-[2px] bg-[#5b5b98] transition-all duration-500 rounded-full"></span>
-                                        </div>
-                                    </li>
-
-                                </ul>
-
-                                {/* Mobile Menu */}
-                                <ul className={`absolute right-0 top-14 z-50 py-2 border-t w-full bg-white  md:hidden transition-all duration-300 transform ${isOpen ? 'translate-y-0' : '-translate-y-96'}`}>
-                                    <li>
-                                        <Link href="/" className="block py-3 px-4 text-[#131f58] font-semibold text-base hover:text-[#f20791]" onClick={() => setIsOpen(false)}>
-                                            Home
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <a href="#about" className="block py-3 px-4 text-[#131f58] font-semibold text-base hover:text-[#f20791]" onClick={() => setIsOpen(false)}>
-                                            About us
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#why-choose-us" className="block py-3 px-4 text-[#131f58] font-semibold text-base hover:text-[#f20791]" onClick={() => setIsOpen(false)}>
-                                            Why Choose Us
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#contact" className="block py-3 px-4 text-[#131f58] font-semibold text-base hover:text-[#f20791]" onClick={() => setIsOpen(false)}>
-                                            Contact
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            {showSidebar && <SidebarModal toggleSidebar={toggleSidebar} showSidebar={showSidebar} />}
-        </>
-    )
-}
+      <SidebarModal
+        showSidebar={showSidebar}
+        closeSidebar={closeSidebar}
+        contact={contact}
+      />
+    </>
+  );
+};
 
 export default Navbar;
