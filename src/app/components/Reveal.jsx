@@ -2,23 +2,31 @@
 import { useEffect, useRef, useState } from "react";
 
 // Fades children in when they scroll into view.
-// Visibility lives in React state (not classList) so it survives re-renders
-// that change `className`, e.g. an FAQ item toggling open/closed.
+// Content is visible by default (server HTML, slow/failed JS). Only after mount
+// do we hide elements that are still below the viewport, so nothing can get
+// stuck invisible. Visibility lives in React state so re-renders that change
+// `className` (e.g. an FAQ item opening) don't reset it.
 const Reveal = ({ as: Tag = "div", delay = 0, className = "", children, ...rest }) => {
   const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Already on screen (or above it): leave it alone, no animation needed.
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+
+    setHidden(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          setHidden(false);
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      { rootMargin: "0px 0px -10% 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -27,8 +35,8 @@ const Reveal = ({ as: Tag = "div", delay = 0, className = "", children, ...rest 
   return (
     <Tag
       ref={ref}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`reveal ${hidden ? "reveal-hidden" : ""} ${className}`}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
       {...rest}
     >
       {children}

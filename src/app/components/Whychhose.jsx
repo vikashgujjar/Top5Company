@@ -74,7 +74,7 @@ const FeatureCard = ({ feature, index }) => {
 const WhyChooseUs = () => {
   return (
     <>
-      <section id="why-choose-us" className="cv-auto relative py-24 lg:py-32">
+      <section id="why-choose-us" className="relative py-24 lg:py-32">
         <div className="glow -left-40 top-1/3 -z-10 h-[420px] w-[420px] bg-brand-cyan/10" />
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal className="mx-auto max-w-3xl text-center">
@@ -94,7 +94,7 @@ const WhyChooseUs = () => {
         </div>
       </section>
 
-      <section className="cv-auto relative py-24 lg:py-32">
+      <section className="relative py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-ink-800 via-ink-900 to-ink-950 p-8 sm:p-12 lg:p-16">
             <div className="grid-bg absolute inset-0 opacity-60" />

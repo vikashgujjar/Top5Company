@@ -46,7 +46,7 @@ const FAQSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section id="faq" className="cv-auto relative py-24 lg:py-32">
+    <section id="faq" className="relative py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-5 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
         <Reveal className="lg:sticky lg:top-28 lg:h-max">
           <span className="eyebrow">FAQ</span>

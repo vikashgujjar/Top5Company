@@ -10,7 +10,7 @@ const stats = [
 
 const About = () => {
   return (
-    <section id="about" className="cv-auto relative py-24 lg:py-32">
+    <section id="about" className="relative py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="flex flex-col items-center gap-6 text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
           <div className="max-w-2xl">

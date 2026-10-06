@@ -89,7 +89,7 @@ const MarqueeRow = ({ items, reverse }) => (
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className="cv-auto relative overflow-hidden py-24 lg:py-32">
+    <section id="testimonials" className="relative overflow-hidden py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
           <div className="max-w-2xl">

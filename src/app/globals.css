@@ -131,12 +131,6 @@ body {
   -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.35) 45%, transparent 100%);
 }
 
-/* Skip layout/paint for off-screen sections until they are scrolled near */
-.cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
-
 /* Edge fade for marquees */
 .mask-fade-x {
   mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
@@ -147,18 +141,16 @@ body {
   animation-play-state: paused;
 }
 
-/* Scroll reveal */
+/* Scroll reveal: visible by default; JS adds .reveal-hidden only to elements below the fold */
 .reveal {
-  opacity: 0;
-  transform: translateY(28px);
   transition:
     opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(28px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -172,10 +164,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
   }
 }
