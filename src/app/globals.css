@@ -4,8 +4,18 @@
 
 :root {
   --pink: #f20791;
-  --violet: #7c5cff;
-  --cyan: #22d3ee;
+  --violet: #6d4aff;
+  --cyan: #06b6d4;
+  --amber: #ff9f43;
+  /* Cyan only ever meets violet, so no muddy amber-cyan blend */
+  --holo: linear-gradient(100deg, var(--violet), var(--pink) 28%, var(--amber) 48%, var(--pink) 66%, var(--violet) 82%, var(--cyan) 92%, var(--violet));
+}
+
+/* Lets the conic border angle animate smoothly */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 html {
@@ -15,114 +25,367 @@ html {
 }
 
 body {
-  @apply bg-ink-950 text-slate-300 font-sans antialiased;
+  @apply bg-ink-50 text-ink-600 font-sans antialiased;
   overflow-x: clip;
 }
 
 ::selection {
-  background: rgba(242, 7, 145, 0.35);
-  color: #fff;
+  background: rgba(109, 74, 255, 0.18);
+  color: #0b0b14;
 }
 
 @layer components {
-  /* Frosted glass surface */
+  /* Frosted glass panel: translucent fill, bright top edge, soft violet-tinted depth */
   .glass {
-    @apply border border-white/10 bg-white/[0.035];
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.42));
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+    backdrop-filter: blur(22px) saturate(170%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.25),
+      0 1px 2px rgba(16, 16, 40, 0.04),
+      0 24px 60px -24px rgba(40, 30, 90, 0.28);
   }
 
-  /* Brand gradient text */
-  .text-gradient {
-    background: linear-gradient(90deg, var(--cyan), var(--violet) 45%, var(--pink));
-    background-size: 200% auto;
+  /* Denser glass for content that overlaps (stacked cards, forms) */
+  .glass-strong {
+    @apply glass;
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.78));
+  }
+
+  /* Glass look without backdrop blur, for elements that move constantly (marquees) */
+  .glass-lite {
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.66));
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 1px 2px rgba(16, 16, 40, 0.04),
+      0 20px 50px -24px rgba(40, 30, 90, 0.25);
+  }
+
+  /* Holographic foil surface */
+  .holo-foil {
+    background:
+      radial-gradient(at 12% 18%, rgba(6, 182, 212, 0.28), transparent 45%),
+      radial-gradient(at 88% 12%, rgba(242, 7, 145, 0.22), transparent 45%),
+      radial-gradient(at 78% 92%, rgba(109, 74, 255, 0.3), transparent 50%),
+      radial-gradient(at 8% 95%, rgba(255, 159, 67, 0.22), transparent 45%),
+      rgba(255, 255, 255, 0.9);
+  }
+
+  /* Animated holographic text */
+  .text-holo {
+    background: var(--holo);
+    background-size: 250% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    animation: shimmer 8s linear infinite;
   }
 
-  .bg-brand-gradient {
-    background: linear-gradient(110deg, var(--pink), var(--violet) 55%, var(--cyan));
+  .bg-holo {
+    background: var(--holo);
+    background-size: 250% auto;
   }
 
-  /* Section eyebrow label */
+  /* Outlined numerals */
+  .num-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(109, 74, 255, 0.3);
+  }
+
+  /* Monospace tech label with a live dot */
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300;
+    @apply glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-ink-700;
   }
 
   .eyebrow::before {
     content: "";
-    @apply h-1.5 w-1.5 rounded-full bg-brand-pink;
-    box-shadow: 0 0 12px var(--pink);
+    @apply h-1.5 w-1.5 rounded-full;
+    background: var(--violet);
+    box-shadow: 0 0 0 3px rgba(109, 74, 255, 0.15), 0 0 10px var(--violet);
   }
 
   .section-title {
-    @apply font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl;
+    @apply font-display text-3xl font-bold leading-[1.1] tracking-[-0.03em] text-ink-950 sm:text-4xl sm:leading-[1.1] lg:text-[3.4rem];
   }
 
+  /* Ink pill with a holographic halo on hover */
   .btn-primary {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5;
-    background: linear-gradient(110deg, var(--pink), var(--violet));
-    box-shadow: 0 10px 40px -10px rgba(242, 7, 145, 0.7);
+    @apply relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-ink-950 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5;
+    box-shadow: 0 12px 30px -12px rgba(11, 11, 20, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.18);
   }
 
-  .btn-primary:hover {
-    box-shadow: 0 16px 50px -10px rgba(124, 92, 255, 0.8);
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--holo);
+    background-size: 250% auto;
+    opacity: 0;
+    transition: opacity 0.35s;
+    animation: shimmer 6s linear infinite;
+  }
+
+  .btn-primary:hover::after {
+    opacity: 1;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.08];
+    @apply glass inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-ink-950 transition-all duration-300 hover:-translate-y-0.5;
   }
 
-  /* Gradient border that shows on hover */
-  .gradient-border {
+  /* Holographic hairline that appears on hover */
+  .holo-edge {
     position: relative;
   }
 
-  .gradient-border::before {
+  .holo-edge::before {
     content: "";
     position: absolute;
     inset: 0;
     padding: 1px;
     border-radius: inherit;
-    background: linear-gradient(135deg, var(--pink), var(--violet), var(--cyan));
+    background: var(--holo);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.4s;
     pointer-events: none;
+    z-index: 2;
   }
 
-  .gradient-border:hover::before {
+  .holo-edge:hover::before {
     opacity: 1;
+  }
+
+  /* Always-on rotating holographic border */
+  .border-spin {
+    position: relative;
+  }
+
+  .border-spin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--angle), var(--cyan), var(--violet), var(--pink), var(--amber), var(--cyan));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: angle-spin 6s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Light sweep across a surface */
+  .sheen {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: -20% auto -20% 0;
+    width: 35%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+    animation: sheen 6s ease-in-out infinite;
+  }
+
+  /* Glassy 3D icon tile */
+  .icon-3d {
+    @apply relative grid place-items-center rounded-2xl text-white;
+    background: linear-gradient(150deg, #8b6dff 0%, #6d4aff 45%, #f20791 100%);
+    box-shadow:
+      inset 0 2px 1px rgba(255, 255, 255, 0.55),
+      inset 0 -6px 12px rgba(40, 10, 90, 0.35),
+      0 14px 28px -10px rgba(109, 74, 255, 0.6);
+  }
+
+  .icon-3d::after {
+    content: "";
+    position: absolute;
+    inset: 3px 3px 50% 3px;
+    border-radius: 0.9rem 0.9rem 40% 40%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), transparent);
+    pointer-events: none;
   }
 
   /* Cursor-following spotlight (uses --x / --y set from JS) */
   .spotlight {
     background: radial-gradient(
-      420px circle at var(--x, 50%) var(--y, 50%),
-      rgba(124, 92, 255, 0.16),
-      transparent 60%
+      380px circle at var(--x, 50%) var(--y, 50%),
+      rgba(109, 74, 255, 0.12),
+      rgba(6, 182, 212, 0.06) 40%,
+      transparent 65%
     );
   }
 }
 
-/* Five-star rating without five SVGs */
-.stars::before {
-  content: "★★★★★";
-  letter-spacing: 0.2em;
+@keyframes shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 250% 50%;
+  }
 }
 
-/* Background grid with radial fade */
+@keyframes angle-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes sheen {
+  0%,
+  70% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(380%) skewX(-20deg);
+  }
+}
+
+/* ---------- Hero ---------- */
+/* Mouse parallax: --mx / --my are set by <Parallax> in the range -1..1 */
+.parallax-scene {
+  transform: rotateX(calc(var(--my, 0) * -7deg)) rotateY(calc(var(--mx, 0) * 9deg));
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.depth-1 {
+  transform: translate3d(calc(var(--mx, 0) * 10px), calc(var(--my, 0) * 10px), 40px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.depth-2 {
+  transform: translate3d(calc(var(--mx, 0) * 22px), calc(var(--my, 0) * 22px), 90px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Glass sphere */
+.orb {
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 32% 26%, #fff 0%, rgba(255, 255, 255, 0.95) 10%, transparent 34%),
+    radial-gradient(circle at 70% 78%, rgba(242, 7, 145, 0.45), transparent 55%),
+    radial-gradient(circle at 22% 80%, rgba(6, 182, 212, 0.45), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(196, 181, 253, 0.9), rgba(109, 74, 255, 0.75));
+  box-shadow:
+    inset -18px -26px 50px rgba(60, 20, 140, 0.35),
+    inset 14px 18px 36px rgba(255, 255, 255, 0.7),
+    0 50px 90px -30px rgba(109, 74, 255, 0.65);
+}
+
+/* ---------- Vision pipeline ---------- */
+/* Dashed gradient line with dashes streaming along it, plus a glowing packet */
+/* Vertical on mobile, horizontal from lg */
+.flow-line {
+  border-radius: 9999px;
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0 6px, transparent 6px 14px),
+    linear-gradient(180deg, var(--cyan), var(--violet), var(--pink));
+  background-size: 100% 28px, 100% 100%;
+  animation: flow-y 1.2s linear infinite;
+}
+
+@keyframes flow-y {
+  to {
+    background-position: 0 28px, 0 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .flow-line {
+    background:
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0 6px, transparent 6px 14px),
+      linear-gradient(90deg, var(--cyan), var(--violet), var(--pink));
+    background-size: 28px 100%, 100% 100%;
+    animation-name: flow-x;
+  }
+}
+
+.flow-pulse {
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(109, 74, 255, 0.35), 0 0 18px 4px rgba(242, 7, 145, 0.6);
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  animation: pulse-y 4s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+@keyframes flow-x {
+  to {
+    background-position: 28px 0, 0 0;
+  }
+}
+
+@keyframes pulse-y {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .flow-pulse {
+    top: 50%;
+    left: 0;
+    animation-name: pulse-x;
+  }
+}
+
+@keyframes pulse-x {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+/* ---------- Backgrounds ---------- */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 100%);
+    linear-gradient(rgba(60, 50, 120, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60, 50, 120, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, #000 25%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, #000 25%, transparent 100%);
 }
 
-/* Soft glow blobs: a radial mask is far cheaper to paint than filter: blur() */
+/* Soft colour blobs: a radial mask is far cheaper to paint than filter: blur() */
 .glow {
   position: absolute;
   border-radius: 9999px;
@@ -131,7 +394,6 @@ body {
   -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.35) 45%, transparent 100%);
 }
 
-/* Edge fade for marquees */
 .mask-fade-x {
   mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
@@ -141,16 +403,23 @@ body {
   animation-play-state: paused;
 }
 
+.stars::before {
+  content: "★★★★★";
+  letter-spacing: 0.2em;
+}
+
 /* Scroll reveal: visible by default; JS adds .reveal-hidden only to elements below the fold */
 .reveal {
   transition:
-    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .reveal-hidden {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(32px) scale(0.98);
+  filter: blur(6px);
 }
 
 @media (prefers-reduced-motion: reduce) {

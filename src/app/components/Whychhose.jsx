@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { FiAward, FiCpu, FiHeart, FiTrendingUp, FiLayers, FiShield, FiArrowRight } from "react-icons/fi";
 import Reveal from "./Reveal";
 
@@ -9,7 +8,6 @@ const features = [
     description:
       "We have a proven track record of delivering successful IT projects for businesses of all sizes and industries.",
     icon: FiAward,
-    span: "lg:col-span-2",
   },
   {
     title: "Technological Advancements",
@@ -40,7 +38,6 @@ const features = [
     description:
       "We provide ongoing support and maintenance to ensure the long-term success of your IT investments.",
     icon: FiShield,
-    span: "lg:col-span-2",
   },
 ];
 
@@ -56,87 +53,60 @@ const FeatureCard = ({ feature, index }) => {
   return (
     <div
       onMouseMove={trackPointer}
-      className="gradient-border glass group relative h-full overflow-hidden rounded-3xl p-7 transition-transform duration-500 hover:-translate-y-1"
+      className="glass holo-edge group relative h-full overflow-hidden rounded-[2rem] p-7 transition-all duration-500 [perspective:600px] hover:-translate-y-1.5 hover:shadow-lift"
     >
       <div className="spotlight pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       <div className="relative flex items-start justify-between">
-        <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-brand-pink/20 to-brand-violet/20 text-2xl text-white ring-1 ring-white/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+        <span className="icon-3d h-14 w-14 text-2xl transition-transform duration-500 group-hover:[transform:rotateX(14deg)_rotateY(-18deg)_scale(1.08)]">
           <Icon />
         </span>
-        <span className="font-display text-sm font-semibold text-slate-600">0{index + 1}</span>
+        <span className="font-mono text-xs text-ink-400 transition-colors duration-500 group-hover:text-brand-violet">
+          /0{index + 1}
+        </span>
       </div>
-      <h3 className="relative mt-8 font-display text-xl font-semibold text-white">{feature.title}</h3>
-      <p className="relative mt-3 leading-7 text-slate-400">{feature.description}</p>
+      <h3 className="relative mt-8 font-display text-xl font-semibold text-ink-950">{feature.title}</h3>
+      <p className="relative mt-3 leading-7 text-ink-600">{feature.description}</p>
     </div>
   );
 };
 
 const WhyChooseUs = () => {
+  const left = features.filter((_, i) => i % 2 === 0);
+  const right = features.filter((_, i) => i % 2 === 1);
+
   return (
     <>
       <section id="why-choose-us" className="relative py-24 lg:py-32">
-        <div className="glow -left-40 top-1/3 -z-10 h-[420px] w-[420px] bg-brand-cyan/10" />
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <Reveal className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-5 sm:px-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+          {/* Pinned intro */}
+          <Reveal className="lg:sticky lg:top-32 lg:h-max">
             <span className="eyebrow">Why choose us</span>
             <h2 className="section-title mt-5">
-              Built for businesses that <span className="text-gradient">refuse to stand still</span>
+              Built for businesses that <span className="text-holo">refuse to stand still</span>
             </h2>
+            <p className="mt-6 max-w-md leading-8 text-ink-600">
+              Six reasons teams across India and beyond trust Future IT Touch with the technology
+              that runs their business.
+            </p>
+            <a href="#contact" className="btn-primary mt-8">
+              Start your project <FiArrowRight />
+            </a>
           </Reveal>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {features.map((feature, i) => (
-              <Reveal key={feature.title} delay={(i % 4) * 80} className={`h-full ${feature.span || ""}`}>
-                <FeatureCard feature={feature} index={i} />
-              </Reveal>
+          {/* Staggered two-column cards */}
+          <div className="grid gap-5 sm:grid-cols-2">
+            {[left, right].map((column, c) => (
+              <div key={c} className={`space-y-5 ${c === 1 ? "sm:mt-16" : ""}`}>
+                {column.map((feature) => {
+                  const i = features.indexOf(feature);
+                  return (
+                    <Reveal key={feature.title} delay={(i % 3) * 80}>
+                      <FeatureCard feature={feature} index={i} />
+                    </Reveal>
+                  );
+                })}
+              </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-ink-800 via-ink-900 to-ink-950 p-8 sm:p-12 lg:p-16">
-            <div className="grid-bg absolute inset-0 opacity-60" />
-            <div className="glow -right-20 -top-20 h-80 w-80 bg-brand-pink/25" />
-            <div className="glow -bottom-20 left-10 h-72 w-72 bg-brand-violet/25" />
-
-            <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-              <Reveal>
-                <span className="eyebrow">Our vision</span>
-                <h2 className="section-title mt-5">
-                  Empower your business with <span className="text-gradient">Future IT Touch</span>
-                </h2>
-                <p className="mt-6 leading-8 text-slate-400">
-                  Future IT Touch shines as a rising star. Focused on cutting-edge technological
-                  solutions, we aim to revolutionize the IT landscape through our emphasis on
-                  artificial intelligence, machine learning, and data analytics.
-                </p>
-                <p className="mt-4 leading-8 text-slate-400">
-                  While relatively newer, we are making significant strides in transforming the
-                  Indian IT sector. Our commitment to innovation, client satisfaction, and
-                  technological advancement cements our position as a leader in the industry.
-                </p>
-                <a href="#contact" className="btn-primary mt-8">
-                  Start your project <FiArrowRight />
-                </a>
-              </Reveal>
-
-              <Reveal delay={120} className="relative">
-                <div className="relative mx-auto aspect-square max-w-md">
-                  <div className="absolute inset-0 animate-spin-slow rounded-full border border-dashed border-white/15" />
-                  <div className="absolute inset-10 animate-spin-slow rounded-full border border-white/10 [animation-direction:reverse]" />
-                  <div className="absolute inset-20 rounded-full bg-gradient-to-br from-brand-pink/30 via-brand-violet/30 to-brand-cyan/30 blur-2xl" />
-                  <Image
-                    src="/images/opt/map.webp"
-                    alt="Future IT Touch team connected across locations"
-                    fill
-                    sizes="(min-width: 1024px) 28rem, 90vw"
-                    className="object-contain"
-                  />
-                </div>
-              </Reveal>
-            </div>
           </div>
         </div>
       </section>

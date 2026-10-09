@@ -1,21 +1,23 @@
 import MainBanner from "./components/MainBanner";
-import ITCompanies from "./components/ITcompanies";
 import About from "./components/About";
+import ITCompanies from "./components/ITcompanies";
 import WhyChooseUs from "./components/Whychhose";
+import Vision from "./components/Vision";
 import Testimonials from "./components/Testimonial";
 import FAQSection from "./components/Faq";
-import CtaBand from "./components/CtaBand";
+import ContactSection from "./components/ContactSection";
 
 const page = () => {
   return (
     <>
       <MainBanner />
-      <ITCompanies />
       <About />
+      <ITCompanies />
       <WhyChooseUs />
+      <Vision />
       <Testimonials />
       <FAQSection />
-      <CtaBand />
+      <ContactSection />
     </>
   );
 };

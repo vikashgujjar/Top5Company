@@ -30,10 +30,10 @@ const validate = (data) => {
 };
 
 const inputClass =
-  "peer w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 pb-2.5 pt-6 text-sm text-white placeholder-transparent outline-none transition focus:border-brand-pink/60 focus:bg-white/[0.06] focus:ring-4 focus:ring-brand-pink/10";
+  "peer w-full rounded-2xl border border-white bg-white/60 px-4 pb-2.5 pt-6 text-sm text-ink-950 placeholder-transparent shadow-[inset_0_1px_2px_rgba(40,30,90,0.06)] outline-none backdrop-blur transition hover:bg-white/80 focus:border-brand-violet/50 focus:bg-white focus:shadow-[0_0_0_4px_rgba(109,74,255,0.12),0_10px_30px_-12px_rgba(109,74,255,0.45)]";
 
 const labelClass =
-  "pointer-events-none absolute left-4 top-2 text-[11px] font-medium uppercase tracking-wider text-slate-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-focus:top-2 peer-focus:text-[11px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-brand-pink";
+  "pointer-events-none absolute left-4 top-2 font-mono text-[10px] font-medium uppercase tracking-wider text-ink-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:font-sans peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-focus:top-2 peer-focus:font-mono peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-brand-violet";
 
 const ContactArea = () => {
   const [formData, setFormData] = useState(emptyForm);
@@ -74,15 +74,17 @@ const ContactArea = () => {
   const loading = status.type === "loading";
 
   return (
-    <div className="glass relative overflow-hidden rounded-3xl p-6 sm:p-8">
-      <div className="glow -right-24 -top-24 h-56 w-56 bg-brand-pink/25" />
+    <div className="glass relative overflow-hidden rounded-[2rem] p-6 sm:p-8">
+      <div className="glow -right-24 -top-24 h-64 w-64 bg-brand-pink/20" />
+      <div className="glow -bottom-28 -left-20 h-64 w-64 bg-brand-cyan/15" />
 
       <div className="relative">
         <span className="eyebrow">Contact us</span>
-        <h2 className="mt-5 font-display text-2xl font-bold leading-tight text-white sm:text-3xl">
-          Book an online appointment for <span className="text-gradient">business planning</span>
+        <h2 className="mt-5 font-display text-2xl font-bold leading-tight tracking-tight text-ink-950 sm:text-3xl">
+          Book an online appointment for{" "}
+          <span className="text-holo">business planning</span>
         </h2>
-        <p className="mt-3 text-sm text-slate-400">Tell us about your project — we reply within one business day.</p>
+        <p className="mt-3 text-sm text-ink-500">Tell us about your project — we reply within one business day.</p>
 
         <form onSubmit={handleSubmit} noValidate className="mt-8 grid gap-4 sm:grid-cols-2">
           {fields.map((f) => (
@@ -119,7 +121,7 @@ const ContactArea = () => {
           </div>
 
           <div className="sm:col-span-2">
-            <button type="submit" disabled={loading} className="btn-primary w-full disabled:opacity-70">
+            <button type="submit" disabled={loading} className="btn-primary w-full !py-4 disabled:opacity-70">
               {loading ? (
                 <>
                   <FiLoader className="animate-spin" /> Sending…
@@ -135,7 +137,7 @@ const ContactArea = () => {
               role="status"
               aria-live="polite"
               className={`mt-4 flex items-center gap-2 text-sm ${
-                status.type === "success" ? "text-emerald-400" : "text-rose-400"
+                status.type === "success" ? "text-emerald-600" : "text-rose-600"
               }`}
             >
               {status.type === "success" && <FiCheckCircle />}
