@@ -17,11 +17,12 @@ export const socials = [
 ];
 
 export const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Ranking", href: "#companies" },
-  { label: "Why Us", href: "#why-choose-us" },
-  { label: "Reviews", href: "#testimonials" },
-  { label: "FAQ", href: "#faq" },
+  { label: "About", href: "/#about" },
+  { label: "Ranking", href: "/#companies" },
+  { label: "Why Us", href: "/#why-choose-us" },
+  { label: "Reviews", href: "/#testimonials" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Blog", href: "/blog/" },
 ];
 
 export const companies = [

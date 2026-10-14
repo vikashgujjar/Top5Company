@@ -56,7 +56,7 @@ const Navbar = () => {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a href="#contact" className="btn-primary hidden !px-5 !py-2.5 sm:inline-flex">
+            <a href="/#contact" className="btn-primary hidden !px-5 !py-2.5 sm:inline-flex">
               Get in touch <FiArrowUpRight />
             </a>
             <button

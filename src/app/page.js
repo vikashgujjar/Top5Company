@@ -5,6 +5,7 @@ import WhyChooseUs from "./components/Whychhose";
 import Vision from "./components/Vision";
 import Testimonials from "./components/Testimonial";
 import FAQSection from "./components/Faq";
+import BlogSection from "./components/BlogSection";
 import ContactSection from "./components/ContactSection";
 
 const page = () => {
@@ -16,6 +17,7 @@ const page = () => {
       <WhyChooseUs />
       <Vision />
       <Testimonials />
+      <BlogSection />
       <FAQSection />
       <ContactSection />
     </>

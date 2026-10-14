@@ -87,7 +87,7 @@ const Footer = () => {
           <div>
             <ColumnTitle>Explore</ColumnTitle>
             <ul className="mt-5 space-y-3">
-              {[...navLinks, { label: "Contact", href: "#contact" }].map((l) => (
+              {[...navLinks, { label: "Contact", href: "/#contact" }].map((l) => (
                 <li key={l.href}>
                   <a href={l.href} className="text-ink-700 transition hover:text-brand-violet">
                     {l.label}
